@@ -7,8 +7,6 @@ Arm arm = new Arm();
 
 float pixelSize = 0; 
 float widthonescreen = 0; 
-PShape ruthless; 
-PShape hustlers; 
 float screenWidthFloat = 0; 
 float screenHeightFloat = 0; 
 float angleArm = 180;
@@ -33,16 +31,15 @@ void setup() {
   screenWidthFloat = width;
   screenHeightFloat = height;
   pixelSize = widthonescreen / 47;
-  ruthless = loadShape("ruthless.svg");
-  hustlers = loadShape("hustlers.svg");
 };
 
 void draw() {
+  noCursor();
   PVector TargetPos = myTracker.getTarget();
-  if(TargetPos.x*width <= width/2){
-  fadeinFont = map(TargetPos.x*width, width/16, width*0.4, 255, 0); 
-  }else{
-  fadeinFont = map(TargetPos.x*width, width*0.6, width-width/16, 0, 255); 
+  if (TargetPos.x*width <= width/2) {
+    fadeinFont = map(TargetPos.x*width, width/16, width*0.4, 255, 0);
+  } else {
+    fadeinFont = map(TargetPos.x*width, width*0.6, width-width/16, 0, 255);
   }
   if (TargetPos.x*width >= width/4.5 && TargetPos.x*width <= width-width/4.5) {
     triggerCoinMotion = true; 
@@ -52,42 +49,42 @@ void draw() {
       angleArm = 75;
     }
   } else {
-     triggerCoinMotion = false; 
-    if(triggerArmsDown == true){
-    if (angleArm > 180) {
-      angleArm = 180;
-      triggerArmsDown = false; 
-    } else {
-      angleArm += 7;
-    }
+    triggerCoinMotion = false; 
+    if (triggerArmsDown == true) {
+      if (angleArm > 180) {
+        angleArm = 180;
+        triggerArmsDown = false;
+      } else {
+        angleArm += 7;
+      }
     }
   }
-  if(triggerCoinMotion == true){
+  if (triggerCoinMotion == true) {
     counterCoinMotion++;
-  }else{
-    if(counterCoinMotion <= 90){
+  } else {
+    if (counterCoinMotion <= 90) {
       counterCoinMotion = 0; 
-      triggerArmsDown = true; 
+      triggerArmsDown = true;
     }
   }
-  if(counterCoinMotion > 90){
-   if((coinMovement < height/3.4 && triggerCoinMotion == true) || coinMovement > 0){
-     if(coinGravity >= 50){
-       coinGravity = 50; 
-     }else{
-       coinGravity++;
-     }
-    coinMovement += coinGravity;
-     triggerArmsDown = false;
+  if (counterCoinMotion > 90) {
+    if ((coinMovement < height/3.4 && triggerCoinMotion == true) || coinMovement > 0) {
+      if (coinGravity >= 50) {
+        coinGravity = 50;
+      } else {
+        coinGravity++;
+      }
+      coinMovement += coinGravity;
+      triggerArmsDown = false;
     }
-    if(coinMovement >= height/3.4){
-      if(counterArmsDown > 25){
-      triggerArmsDown = true; 
-      counterArmsDown = 0; 
-      coinMovement = 0;
-      counterCoinMotion = 0; 
-      coinGravity = 0; 
-      }else{
+    if (coinMovement >= height/3.4) {
+      if (counterArmsDown > 25) {
+        triggerArmsDown = true; 
+        counterArmsDown = 0; 
+        coinMovement = 0;
+        counterCoinMotion = 0; 
+        coinGravity = 0;
+      } else {
         triggerArmsDown = false; 
         counterArmsDown++; 
         coinMovement = height/3.4;
@@ -100,22 +97,19 @@ void draw() {
   rectMode(CORNER);
   ellipseMode(CENTER);
   fill(#808080);
-    circle(width/2-width/20,0-height/50+coinMovement, width/50);
-    circle(width/2+width/20,0-height/50+coinMovement, width/50);
-    fill(0);
+  circle(width/2-width/20, 0-height/50+coinMovement, width/50);
+  circle(width/2+width/20, 0-height/50+coinMovement, width/50);
+  fill(0);
   ghost1(); 
   ghost2();
-  shapeMode(CENTER);
-  shape(ruthless, width/4, height-(height/16), width/5, width/5/7.48); 
-  shape(hustlers, width/4+width/2, height-(height/16), width/5, width/5/7.48); 
   rectMode(CENTER);
-  fill(0,0,0,fadeinFont); 
-  rect(width/4, height-(height/16),width/5, width/5/7.48);
-  rect(width/2+width/4, height-(height/16),width/5, width/5/7.48);
+  fill(0, 0, 0, fadeinFont); 
+  rect(width/4, height-(height/16), width/5, width/5/7.48);
+  rect(width/2+width/4, height-(height/16), width/5, width/5/7.48);
   fill(255, 0, 0);
   // screen split line
   strokeWeight(2);
-  stroke(255, 0, 0, 70);
+  stroke(0, 0, 0, 0);
   line(width/2, 0, width/2, height);
   //if (frameCount % 120 == 1  ) println("FPS"+frameRate); // for checking the performance of your code
 };
@@ -145,7 +139,7 @@ void ghost2() {
   // Arms
   pushMatrix(); 
   translate(width-width/4, height/3); 
-  scale(-1,1);
+  scale(-1, 1);
   rotate(radians(angleArm));
   arm.render(width/3.85);
   popMatrix();
